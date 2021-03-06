@@ -5,27 +5,21 @@ Description: >-
 Transform:
   - AWS::Serverless-2016-10-31
 
+Globals:
+  Runtime: nodejs12.x
+
 Resources:
-  getAllItemsFunction:
+  GraphQlFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/get-all-items.getAllItemsHandler
-      Runtime: nodejs12.x
-      MemorySize: 128
-      Timeout: 100
-      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
-      # Policies:
-      #   - DynamoDBCrudPolicy:
-      #       TableName: !Ref SampleTable
-      # Environment:
-      #   Variables:
-      #     SAMPLE_TABLE: !Ref SampleTable
+      Handler: src/app.graphqlHandler
+      Timeout: 10
       Events:
-        Api:
+        PostRequest:
           Type: Api
           Properties:
-            Path: /
-            Method: GET
+            Path: /graphql
+            Method: ANY
 
 Outputs:
   WebEndpoint:
